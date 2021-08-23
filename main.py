@@ -66,7 +66,23 @@ class Dino(pygame.sprite.Sprite):
         self.rect.centerx -= speed
         if self.rect.centerx <= 0:
             self.rect.centerx = self.WIDTH
-
+            
+class Base():
+    def __init__(self, w, y, win):
+        super().__init__()
+        self.win = win
+        self.x = 0
+        self.y = y
+        self.WIDTH = w
+        self.base = pygame.image.load(os.path.join('Assets\Other', 'Track.png')).convert_alpha()
+        self.rect = self.base.get_rect(center=(self.x, self.y))
+    def move(self, speed):
+        self.win.blit(self.base, self.rect)
+        self.win.blit(self.base, (self.rect.centerx + self.base.get_width(), self.rect.centery))
+        self.rect.centerx -= speed
+        if self.rect.centerx <= 0:
+            self.rect.centerx = self.WIDTH
+            
 class Cactus():
     def __init__(self, HEIGHT, win, WIDTH):
         super().__init__()
