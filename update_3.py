@@ -33,7 +33,8 @@ class Player(pygame.sprite.Sprite):
     def duck(self):
         # If down key is pressed in mid-air gravity will increase, forcing the player get down
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_DOWN]: self.gravity = 20
+        if keys[pygame.K_DOWN]:
+            self.gravity = 20
 
     def apply_gravity(self): # Appling gravity
         self.gravity += 1
@@ -167,8 +168,8 @@ def collision():
     try:
         if pygame.sprite.collide_mask(player.sprite, all_obstacles[0]):
             death_audio.play()
+            if player.sprite.rect.y == 310: player.sprite.rect.y = 276
             player.sprite.image = dino_dead
-            
             obstacle.empty()
             return False
     except:
@@ -177,14 +178,13 @@ def collision():
 
 # Updatating game speed
 def update_speed():
-    global game_speed, obstacle_spawn_delay, score, start_time, can_speed
+    global game_speed, score, start_time, can_speed
     score = int((pygame.time.get_ticks()-start_time)/1000*game_speed)
     if score % 200 == 0 and score != 0:
         if game_speed != 20: # max speed limit
             if can_speed:
                 game_speed += 1
                 can_speed = False
-            else: obstacle_spawn_delay = 100
     else:
         can_speed = True
 
@@ -257,12 +257,17 @@ obstacle = pygame.sprite.Group()
 
 
 # Checking if there is a high score/ Loading high score
-with open('high_score.txt', 'w+') as o:
-    high_score = o.read()
-    if high_score == '': high_score = 0
-    else: high_score = int(high_score)
-    o.close()
-    
+try:
+    with open('high_score.txt', 'r') as o:
+        high_score = o.read()
+        high_score = int(high_score)
+        o.close()
+except:
+    with open('high_score.txt', 'w+') as o:
+        high_score = o.read()
+        high_score = 0
+        o.close()
+
 # ----Main loop----
 while True:
     for event in pygame.event.get():
@@ -287,7 +292,6 @@ while True:
         
         screen.fill((255,255,255))
 
-        update_high_score()
         update_speed()         
         play_sound_score()
 
@@ -315,20 +319,17 @@ while True:
         run = collision()
 
         player.draw(screen)
-        
-        
-    
+
     elif run != True and score == 0: # This means that the game is just launched
         screen.fill((255,255,255))
         screen.blit(dino_start, (50, 275))
         # Displaying instruction
-        instruction = font2.render('PRESS SPACE TO START', False, (83,83,83))
+        instruction = font2.render('PRESS SPACE TO  START', False, (83,83,83))
         instruction_rect = instruction.get_rect(center=(screen_width/2, screen_height/2-50))
         screen.blit(instruction, instruction_rect)
 
     else: # This means that player has collided
         update_high_score()
-        # player.draw(screen)
         player.sprite.rect.bottom = 370 # so that player will start from the ground
         game_speed = 9 # making it back to its original value
         # Displaying Death meesage
