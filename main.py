@@ -303,12 +303,12 @@ while True:
         obstacle.update()
 
         ground.update()
-
         player.update()
+        run = collision()
         player.draw(screen)
         
         # Checking collison
-        run = collision()
+        
     
     elif run != True and score == 0: # This means that the game is just launched
         screen.fill((255,255,255))
@@ -329,4 +329,4 @@ while True:
         screen.blit(death_message, death_message_rect)
 
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(60))
