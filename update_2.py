@@ -294,6 +294,7 @@ while True:
         
         screen.fill((255,255,255))
 
+        update_high_score()
         update_speed()         
         play_sound_score()
 
