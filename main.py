@@ -329,4 +329,4 @@ while True:
         screen.blit(death_message, death_message_rect)
 
     pygame.display.update()
-    clock.tick(60))
+    clock.tick(60)
