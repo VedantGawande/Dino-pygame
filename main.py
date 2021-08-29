@@ -1,4 +1,3 @@
-# Special thanks to Klass and Lalit
 # Importing
 import pygame
 from sys import exit
