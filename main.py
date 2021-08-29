@@ -258,7 +258,7 @@ obstacle = pygame.sprite.Group()
 
 
 # Checking if there is a high score/ Loading high score
-with open('high_score.txt', 'r') as o:
+with open('high_score.txt', 'w+') as o:
     high_score = o.read()
     if high_score == '': high_score = 0
     else: high_score = int(high_score)
